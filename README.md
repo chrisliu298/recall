@@ -53,19 +53,31 @@ The export script has **zero pip dependencies** — stdlib Python only.
 
 - **Python 3.9+**
 - **[QMD](https://github.com/tobi/qmd)** — semantic search over markdown files
-
-  ```bash
-  bun install -g @tobilu/qmd
-  # or: npm install -g @tobilu/qmd
-  ```
-
 - **jq** — only needed for multi-machine sync (optional)
 
 ---
 
 ## Installation
 
-Clone into your agent's skills directory:
+### 1. Install QMD
+
+```bash
+bun install -g @tobilu/qmd
+# or: npm install -g @tobilu/qmd
+```
+
+Verify: `qmd --help`
+
+QMD provides three search modes — BM25 (keyword), semantic (embedding), and hybrid (both combined). Keyword search works out of the box. Semantic and hybrid search require embeddings, which QMD generates locally using a small GGUF model (~600MB, downloaded on first `qmd embed`). No API keys needed.
+
+To use a specific embedding model, set `QMD_EMBED_MODEL`:
+
+```bash
+# Default (auto-downloaded on first embed):
+export QMD_EMBED_MODEL="hf:Qwen/Qwen3-Embedding-0.6B-GGUF/Qwen3-Embedding-0.6B-Q8_0.gguf"
+```
+
+### 2. Install the skill
 
 **Claude Code:**
 
@@ -89,19 +101,41 @@ git clone https://github.com/chrisliu298/recall.git ~/.codex/skills/recall
 python3 ~/.claude/skills/recall/export_sessions.py
 ```
 
-This exports both Claude Code and Codex sessions to `~/.recall/`. First run processes everything; subsequent runs are incremental.
+This exports both Claude Code and Codex sessions to `~/.recall/` as searchable markdown. First run processes everything; subsequent runs are incremental (only new/changed sessions).
 
-### 2. Create QMD collections
+### 2. Create QMD collections and index
 
 ```bash
+# Add your exported session directories as QMD collections
 qmd collection add ~/.recall/claude-code-local --name local
 qmd collection add ~/.recall/codex-local --name codex-local
+
 # Optional: Obsidian vault
 # qmd collection add ~/.recall/obsidian-vault --name vault
+
+# Build the BM25 index (fast, enables keyword search)
+qmd update
+
+# Generate embeddings (slower first time, enables semantic + hybrid search)
 qmd embed
 ```
 
-Collection names are yours to choose — the skill discovers them via `qmd collection list`.
+Collection names are yours to choose — the skill discovers them at runtime via `qmd collection list`. You can verify your setup:
+
+```bash
+qmd status              # show index health, file counts, last update
+qmd collection list     # show all collections and their names
+```
+
+### 3. Test it
+
+```bash
+# Keyword search (works immediately after qmd update)
+qmd search "tmux config" -n 3
+
+# Hybrid search (works after qmd embed)
+qmd query "how did I fix that bug" -n 3
+```
 
 ### 3. Auto-export on session close (optional)
 
