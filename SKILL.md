@@ -11,9 +11,13 @@ allowed-tools: Bash(qmd *), Bash(grep *), Bash(ls *), Bash(find *), Read, Grep, 
 
 Search indexed Claude Code and Codex CLI sessions (local and remote machines) and Obsidian research notes.
 
+## Context
+
+- Available collections: !'qmd collection list 2>/dev/null || echo "QMD not available"'
+
 ## Collections
 
-Sessions are organized by agent and host under `~/.recall/`. Run `qmd collection list` to see available collections and their names.
+Sessions are organized by agent and host under `~/.recall/`.
 
 | Directory | Content |
 |-----------|---------|
