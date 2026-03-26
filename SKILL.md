@@ -1,5 +1,6 @@
 ---
 name: recall
+user-invocable: true
 description: |
   Search past Claude Code sessions and Obsidian notes to recover decisions, debugging insights, and context.
   Use when asked to recall, find, or search past sessions/notes, or when user says "/recall".
