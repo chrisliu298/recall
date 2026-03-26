@@ -5,6 +5,7 @@ description: |
   Use when asked to recall, find, or search past sessions/notes, or when user says "/recall".
   Triggers on "recall", "past session", "did I", "how did I", "find the session where".
 allowed-tools: Bash(qmd *), Bash(grep *), Bash(ls *), Bash(find *), Read, Grep, Glob
+effort: medium
 ---
 
 # /recall — Search Past Sessions & Notes
