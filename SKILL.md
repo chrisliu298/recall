@@ -3,13 +3,13 @@ name: recall
 user-invocable: true
 description: |
   Search past Claude Code sessions and Obsidian notes to recover decisions, debugging insights, and context.
-  Use when asked to recall, find, or search past sessions/notes, or when user says "/recall".
+  Use when asked to recall, find, or search past sessions/notes, or when user says "recall".
   Triggers on "recall", "past session", "did I", "how did I", "find the session where".
 allowed-tools: Bash(qmd *), Bash(grep *), Bash(ls *), Bash(find *), Read, Grep, Glob
 effort: medium
 ---
 
-# /recall — Search Past Sessions & Notes
+# recall — Search Past Sessions & Notes
 
 Search indexed Claude Code and Codex CLI sessions (local and remote machines) and Obsidian research notes.
 
@@ -81,7 +81,7 @@ Merge and deduplicate before synthesizing.
 
 ### 2. Temporal Search — Structured Timeline
 
-For date-based queries (`/recall yesterday`, `/recall what did I do on Feb 20`):
+For date-based queries (`recall yesterday`, `recall what did I do on Feb 20`):
 
 1. Resolve the date(s) — "yesterday" → YYYY-MM-DD, "last week" → date range
 2. Find all sessions for that date across all machines:
